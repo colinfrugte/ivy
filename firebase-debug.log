@@ -12,3 +12,34 @@
 [debug] [2021-09-02T15:47:32.100Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
 [debug] [2021-09-02T15:47:32.100Z] > authorizing via signed-in user (colin.frugte@gmail.com)
 [info] i  emulators: Starting emulators: hosting {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: hosting"}}
+[warn] !  emulators: It seems that you are running multiple instances of the emulator suite for project ivy-lee. This may result in unexpected behavior. 
+[debug] [2021-09-02T15:47:32.116Z] [hub] writing locator at C:\Users\colin\AppData\Local\Temp\hub-ivy-lee.json
+[debug] [2021-09-02T15:47:32.140Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/ivy-lee/sites 
+[debug] [2021-09-02T15:47:32.962Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/ivy-lee/sites 200
+[debug] [2021-09-02T15:47:32.963Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/ivy-lee/sites {"sites":[{"name":"projects/565450224925/sites/ivy-lee","defaultUrl":"https://ivy-lee.web.app","appId":"1:565450224925:web:d9d781868b5936f89f5df4","type":"DEFAULT_SITE"}]}
+[debug] [2021-09-02T15:47:32.963Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/ivy-lee/webApps/1:565450224925:web:d9d781868b5936f89f5df4/config [none]
+[debug] [2021-09-02T15:47:33.813Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/ivy-lee/webApps/1:565450224925:web:d9d781868b5936f89f5df4/config 200
+[debug] [2021-09-02T15:47:33.813Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/ivy-lee/webApps/1:565450224925:web:d9d781868b5936f89f5df4/config {"projectId":"ivy-lee","appId":"1:565450224925:web:d9d781868b5936f89f5df4","databaseURL":"https://ivy-lee-default-rtdb.europe-west1.firebasedatabase.app","storageBucket":"ivy-lee.appspot.com","locationId":"europe-west","apiKey":"AIzaSyCyLMUGXJ-cpDKALBmxNbFvVGX97BcW0M4","authDomain":"ivy-lee.firebaseapp.com","messagingSenderId":"565450224925"}
+[info] i  hosting: Serving hosting files from: build {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mbuild\u001b[22m"}}
+[info] +  hosting: Local server: http://localhost:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5000\u001b[22m\u001b[24m"}}
+[warn] !  emulators: The Emulator UI requires a project ID to start. Configure your default project with 'firebase use' or pass the --project flag. {"metadata":{"emulator":{"name":"hub"},"message":"The Emulator UI requires a project ID to start. Configure your default project with 'firebase use' or pass the --project flag."}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+└─────────────────────────────────────────────────────────────┘
+
+┌──────────┬────────────────┐
+│ Emulator │ Host:Port      │
+├──────────┼────────────────┤
+│ Hosting  │ localhost:5000 │
+└──────────┴────────────────┘
+  Emulator Hub running at localhost:4400
+  Other reserved ports: None
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[info] i  hosting: 127.0.0.1 - - [02/Sep/2021:15:47:44 +0000] "GET / HTTP/1.1" 200 3008 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [02/Sep/2021:15:47:44 +0000] \"GET / HTTP/1.1\" 200 3008 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [02/Sep/2021:15:47:44 +0000] "GET /static/css/main.e0d1ebdb.chunk.css HTTP/1.1" 200 11433 "http://localhost:5000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [02/Sep/2021:15:47:44 +0000] \"GET /static/css/main.e0d1ebdb.chunk.css HTTP/1.1\" 200 11433 \"http://localhost:5000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [02/Sep/2021:15:47:44 +0000] "GET /static/js/main.6ad97c2f.chunk.js HTTP/1.1" 200 13252 "http://localhost:5000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [02/Sep/2021:15:47:44 +0000] \"GET /static/js/main.6ad97c2f.chunk.js HTTP/1.1\" 200 13252 \"http://localhost:5000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [02/Sep/2021:15:47:44 +0000] "GET /static/js/2.b427c7e1.chunk.js HTTP/1.1" 200 374830 "http://localhost:5000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [02/Sep/2021:15:47:44 +0000] \"GET /static/js/2.b427c7e1.chunk.js HTTP/1.1\" 200 374830 \"http://localhost:5000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [02/Sep/2021:15:47:44 +0000] "GET /favicon.ico HTTP/1.1" 200 3870 "http://localhost:5000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [02/Sep/2021:15:47:44 +0000] \"GET /favicon.ico HTTP/1.1\" 200 3870 \"http://localhost:5000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36\""}}
