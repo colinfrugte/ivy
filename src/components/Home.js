@@ -7,10 +7,16 @@ import Pomodoro from "./Pomodoro";
 
 export const Home = () => {
   const { currentUser } = useAuth();
+
   return (
     <div>
-      {<Pomodoro />}
-      {currentUser ? <Leelist /> : <Login />}
+      {currentUser ? (
+        <div>
+          <Pomodoro /> <Leelist />
+        </div>
+      ) : (
+        <Login />
+      )}
     </div>
   );
 };

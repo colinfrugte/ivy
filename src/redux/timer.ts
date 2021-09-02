@@ -1,56 +1,64 @@
-import {
-  createAction,
-  createReducer,
-  PayloadAction
-} from "@reduxjs/toolkit";
+import { createAction, createReducer, PayloadAction } from "@reduxjs/toolkit";
 
 const increment = createAction("counter/increment");
-const decrement = createAction("counter/decrement");
-const incrementByAmount = createAction < number,
-  'counter/incrementByAmount' > ("counter/incrementByAmount");
-const decrementByAmount = createAction < number,
-  "counter/decrementByAmount" > ("counter/decrementByAmount");
+const tick = createAction("counter/tick");
+const incrementByAmount = createAction<number, "counter/incrementByAmount">(
+  "counter/incrementByAmount"
+);
+
 const startStop = createAction("counter/isRunning");
 
 type TimerState = {
-  seconds: number,
-  minutes: number,
-  hours: number,
-  isRunning: boolean
-}
+  seconds: number;
+  minutes: number;
+  hours: number;
+  isRunning: boolean;
+};
 
 const initialState: TimerState = {
   seconds: 0,
-  minutes: 0,
+  minutes: 10,
   hours: 0,
-  isRunning: false
-}
+  isRunning: false,
+};
 
 const timerReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(increment, (state) => {
-      state.isRunning = false;
-      state.seconds++;
+      if (state.seconds === 59) {
+        if (state.minutes === 59) {
+          state.hours++;
+          state.minutes = 0;
+          state.seconds = 0;
+        } else {
+          state.minutes++;
+          state.seconds = 0;
+        }
+      } else {
+        state.seconds++;
+      }
     })
-    .addCase(decrement, (state) => {
-      state.seconds--;
+    .addCase(tick, (state) => {
+      if (state.seconds > 0) {
+        state.seconds--;
+      } else if (state.minutes > 0) {
+        state.seconds = 59;
+        state.minutes--;
+      } else if (state.hours > 0) {
+        state.seconds = 59;
+        state.minutes = 59;
+        state.hours--;
+      } else {
+        state.isRunning = false;
+      }
     })
-    .addCase(incrementByAmount, (state, action: PayloadAction < number > ) => {
+    .addCase(incrementByAmount, (state, action: PayloadAction<number>) => {
       state.seconds += action.payload;
     })
-    .addCase(decrementByAmount, (state, action: PayloadAction < number > ) => {
-      state.seconds -= action.payload;
-    })
+
     .addCase(startStop, (state) => {
       state.isRunning = !state.isRunning;
     });
 });
 
-export {
-  increment,
-  decrement,
-  incrementByAmount,
-  decrementByAmount,
-  timerReducer,
-  startStop,
-};
+export { increment, tick, incrementByAmount, timerReducer, startStop };

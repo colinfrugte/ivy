@@ -1,8 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { ListItem } from "./ListItem";
-import { db, app } from "../firebase";
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import { db } from "../firebase";
+import {
+  collection,
+  getDocs,
+  setDoc,
+  query,
+  where,
+} from "firebase/firestore/lite";
 
 export const Leelist = () => {
   const { currentUser } = useAuth();
@@ -10,29 +16,20 @@ export const Leelist = () => {
   const [input, setInput] = useState("");
   const myDbCollection = "tasks";
 
-  // useEffect(() => {
-  //   db.collection(myDbCollection)
-  //     .where("timestampDone", "==", null)
-  //     .onSnapshot((snapshot) => {
-  //       setTasks(
-  //         snapshot.docs.map((doc) => ({
-  //           id: doc.id,
-  //           task: doc.data().task,
-  //         }))
-  //       );
-  //     });
-  // }, []);
+  useEffect(() => {
+    const q = query(collection(db, myDbCollection));
+    console.log(q);
+    const fetchTasks = async () => {
+      const tasks = [];
+      // const querySnapshot = await getDocs(q);
 
-  const addTask = (event) => {
-    event.preventDefault();
-
-    db.collection(myDbCollection).add({
-      task: input,
-      timestampCreated: app.firestore.FieldValue.serverTimestamp(),
-      timestampDone: null,
-    });
-    setInput("");
-  };
+      // querySnapshot.forEach((doc) => {
+      //   // doc.data() is never undefined for query doc snapshots
+      //   console.log(doc.id, " => ", doc.data());
+      // });
+    };
+    fetchTasks();
+  }, []);
 
   return (
     <div className="m-5">
@@ -46,7 +43,7 @@ export const Leelist = () => {
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex-auto"
             type="submit"
-            onClick={addTask}
+            // onClick={addTask}
           >
             Create 😃
           </button>
