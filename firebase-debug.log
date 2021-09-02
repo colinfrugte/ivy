@@ -1,0 +1,14 @@
+[debug] [2021-09-02T15:47:32.051Z] ----------------------------------------------------------------------
+[debug] [2021-09-02T15:47:32.053Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\colin\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2021-09-02T15:47:32.053Z] CLI Version:   9.16.6
+[debug] [2021-09-02T15:47:32.053Z] Platform:      win32
+[debug] [2021-09-02T15:47:32.054Z] Node Version:  v12.19.0
+[debug] [2021-09-02T15:47:32.054Z] Time:          Thu Sep 02 2021 17:47:32 GMT+0200 (GMT+02:00)
+[debug] [2021-09-02T15:47:32.054Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-09-02T15:47:32.097Z] Object ".hosting" in "firebase.json" has unknown property: {"additionalProperty":"port"}
+[debug] [2021-09-02T15:47:32.097Z] Field ".hosting" in "firebase.json" is possibly invalid: should be array
+[debug] [2021-09-02T15:47:32.097Z] Field ".hosting" in "firebase.json" is possibly invalid: should match some schema in anyOf
+[debug] [2021-09-02T15:47:32.100Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-09-02T15:47:32.100Z] > authorizing via signed-in user (colin.frugte@gmail.com)
+[info] i  emulators: Starting emulators: hosting {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: hosting"}}
