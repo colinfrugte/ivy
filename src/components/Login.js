@@ -4,8 +4,10 @@ import { Link, useHistory } from "react-router-dom";
 
 export default function Login() {
   const emailRef = useRef();
+
   const passwordRef = useRef();
   const { login } = useAuth();
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -21,6 +23,7 @@ export default function Login() {
       history.push("/");
     } catch {
       setError("Failed to log in");
+      console.log(error);
     }
 
     setLoading(false);

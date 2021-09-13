@@ -1,60 +1,67 @@
-import React, { useRef, useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import React, { useEffect, useState } from "react";
 import { ListItem } from "./ListItem";
 import { db } from "../firebase";
-import {
-  collection,
-  getDocs,
-  setDoc,
-  query,
-  where,
-} from "firebase/firestore/lite";
+import { useAuth } from "../contexts/AuthContext";
+import { MdAdd, MdRepeat } from "react-icons/md";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import useTasks from "../service/useTasks";
 
 export const Leelist = () => {
-  const { currentUser } = useAuth();
-  const [tasks, setTasks] = useState([]);
+  const { error, loading, tasks } = useTasks();
   const [input, setInput] = useState("");
-  const myDbCollection = "tasks";
+  const { currentUser, logout } = useAuth();
+  const [taskState, setTaskState] = useState(false);
 
-  useEffect(() => {
-    const q = query(collection(db, myDbCollection));
-    console.log(q);
-    const fetchTasks = async () => {
-      const tasks = [];
-      // const querySnapshot = await getDocs(q);
-
-      // querySnapshot.forEach((doc) => {
-      //   // doc.data() is never undefined for query doc snapshots
-      //   console.log(doc.id, " => ", doc.data());
-      // });
-    };
-    fetchTasks();
-  }, []);
+  const addTask = (input, currentUser) => {
+    setInput("");
+    addDoc(collection(db, "tasks"), {
+      task: input,
+      uid: currentUser.uid,
+      timestampCreated: serverTimestamp(),
+      timestampDone: null,
+      isDone: false,
+    });
+  };
 
   return (
-    <div className="m-5">
-      <form>
-        <div className="flex">
-          <input
-            className="relative block w-full px-3 py-2 border border-gray-300  text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm flex-auto"
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-          />
+    <div className="mx-auto">
+      <div>
+        <div className="flex justify-end text-2xl p-2">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex-auto"
-            type="submit"
-            // onClick={addTask}
+            onClick={() => setTaskState(!taskState)}
+            className="bg-green-500 active:bg-green-700 p-2 rounded-lg "
           >
-            Create 😃
+            <MdRepeat />
           </button>
         </div>
-      </form>
-      <div>
-        <ul className="list-inside list-disc bg-rose-200 text-center">
-          {tasks.map((task) => (
-            <ListItem key={task.id} task={task} />
-          ))}
-        </ul>
+      </div>
+      <div className="bg-green-50 p-2 rounded shadow text-green-700 ">
+        {loading ? (
+          <div>loading...</div>
+        ) : (
+          <ul className="divide-y divide-green-700 divide-opacity-10 px-3 pb-2 space-y-2 list-inside text-lg">
+            {tasks
+              .filter((task) => task.isDone === taskState)
+              .map((task) => (
+                <ListItem key={task.id} task={task} />
+              ))}
+          </ul>
+        )}
+      </div>
+      <div className="px-6 pt-3 flex flex-row pb-3 space-x-2">
+        <input
+          className="pl-3 container placeholder-green-500 placeholder-opacity-50  border rounded p-1 focus:outline-none focus:ring-2 ring-green-400"
+          placeholder="what's next..."
+          value={input}
+          onChange={(event) => setInput(event.target.value)}
+        />
+        <button
+          className="px-3 bg-green-100 text-green-600 font-bold  rounded-lg  hover:bg-green-600 hover:text-green-100 transition ease-out duration-500"
+          type="submit"
+          onClick={() => addTask(input, currentUser)}
+        >
+          <MdAdd />
+        </button>
       </div>
     </div>
   );

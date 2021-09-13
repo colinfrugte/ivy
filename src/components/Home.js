@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { DoneList } from "./DoneList";
 import { Leelist } from "./Leelist";
 import Login from "./Login";
 import Pomodoro from "./Pomodoro";
@@ -10,13 +9,20 @@ export const Home = () => {
 
   return (
     <div>
-      {currentUser ? (
-        <div>
-          <Pomodoro /> <Leelist />
-        </div>
-      ) : (
-        <Login />
-      )}
+      <div>
+        {currentUser ? (
+          <div className="space-y-2 max-w-3xl mx-auto md:max-w-xl">
+            <div className="pb-2">
+              <Pomodoro />
+            </div>
+            <div>
+              <Leelist />
+            </div>
+          </div>
+        ) : (
+          <Login />
+        )}
+      </div>
     </div>
   );
 };
