@@ -12,11 +12,9 @@ export const Navbar = () => {
 
   return (
     <div className="relative flex items-center justify-between h-16 p-3 bg-green-300 text-green-50 font-bold">
-      <div className="">
-        <Link className="px-3" to="/">
-          <img className="h-7" src={mainLogo} alt="fireSpot" />
-        </Link>
-      </div>
+      <Link className="px-3" to="/">
+        <img className="h-7" src={mainLogo} alt="fireSpot" />
+      </Link>
       <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
         {currentUser ? (
           <div>

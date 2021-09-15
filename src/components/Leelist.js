@@ -13,14 +13,15 @@ export const Leelist = () => {
   const [taskState, setTaskState] = useState(false);
 
   const addTask = (input, currentUser) => {
-    setInput("");
-    addDoc(collection(db, "tasks"), {
-      task: input,
-      uid: currentUser.uid,
-      timestampCreated: serverTimestamp(),
-      timestampDone: null,
-      isDone: false,
-    });
+    if (input) {
+      setInput("");
+      addDoc(collection(db, "users", currentUser.uid, "tasks"), {
+        task: input,
+        timestampCreated: serverTimestamp(),
+        timestampDone: null,
+        isDone: false,
+      });
+    }
   };
 
   return (
@@ -42,8 +43,9 @@ export const Leelist = () => {
           <ul className="divide-y divide-green-700 divide-opacity-10 px-3 pb-2 space-y-2 list-inside text-lg">
             {tasks
               .filter((task) => task.isDone === taskState)
+              .sort((a, b) => a.timestampCreated - b.timestampCreated)
               .map((task) => (
-                <ListItem key={task.id} task={task} />
+                <ListItem key={task.id} task={task} currentUser={currentUser} />
               ))}
           </ul>
         )}
@@ -54,9 +56,10 @@ export const Leelist = () => {
           placeholder="what's next..."
           value={input}
           onChange={(event) => setInput(event.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && addTask(input, currentUser)}
         />
         <button
-          className="px-3 bg-green-100 text-green-600 font-bold  rounded-lg  hover:bg-green-600 hover:text-green-100 transition ease-out duration-500"
+          className=" bg-green-100 text-green-600 font-bold  rounded-lg  hover:bg-green-600 hover:text-green-100 transition ease-out duration-500"
           type="submit"
           onClick={() => addTask(input, currentUser)}
         >

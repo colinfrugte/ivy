@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { collection, query, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
+import { useAuth } from "../contexts/AuthContext";
 
-function useTasks() {
+export default function useTasks() {
   const [data, setData] = useState({
     error: null,
     loading: true,
     tasks: [],
   });
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      query(collection(db, "tasks")),
+      query(collection(db, "users", currentUser.uid, "tasks")),
       (snapshot) => {
         setData({
           error: null,
@@ -40,5 +42,3 @@ function useTasks() {
 
   return data;
 }
-
-export default useTasks;

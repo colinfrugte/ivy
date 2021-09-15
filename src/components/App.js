@@ -28,7 +28,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Navbar />
-        <div className="bg-gray-100 h-screen p-2 pt-6">
+        <div className="bg-gray-100 h-screen p-1 pt-4">
           <Switch>
             <Route path="/signup">
               <Signup />;
