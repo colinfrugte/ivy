@@ -12,9 +12,10 @@ export const Navbar = () => {
 
   return (
     <div className="relative flex items-center justify-between h-16 p-3 bg-green-300 text-green-50 font-bold">
-      <Link className="px-3" to="/">
-        <img className="h-7" src={mainLogo} alt="fireSpot" />
-      </Link>
+      {/* <Link className="px-3" to="/"> */}
+      <div className="px-3 cursor-default select-none">Ivy</div>
+
+      {/* </Link> */}
       <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
         {currentUser ? (
           <div>

@@ -13,7 +13,7 @@ const Signup = () => {
       passwordRef.current?.value &&
       passwordConfirmRef.current?.value
     ) {
-      const myconst = signup(
+      signup(
         emailRef.current.value,
         passwordRef.current.value,
         passwordConfirmRef.current.value

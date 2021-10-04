@@ -1,69 +1,110 @@
-import React, { useEffect, useState } from "react";
-import { ListItem } from "./ListItem";
+import React, { useEffect, useRef, useState } from "react";
+import { useTasks } from "../service/service.Tasks";
+import { DragList } from "./DragList";
+
+import { v4 as uuidv4 } from "uuid";
+import { arrayUnion, doc, setDoc } from "@firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
-import { MdAdd, MdRepeat } from "react-icons/md";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import useTasks from "../service/useTasks";
+import { useDispatch, useSelector } from "react-redux";
+import { changeListState } from "../redux/list";
+import {
+  MdCheck,
+  MdCheckBox,
+  MdCheckBoxOutlineBlank,
+  MdClose,
+  MdSend,
+} from "react-icons/md";
 
 export const Leelist = () => {
   const { error, loading, tasks } = useTasks();
-  const [input, setInput] = useState("");
+  const [list, setList] = useState([]);
   const { currentUser, logout } = useAuth();
-  const [taskState, setTaskState] = useState(false);
+  const docRef = doc(db, "users", currentUser.uid);
+  const newTaskRef = useRef(null);
+  const [content, setContent] = useState("");
+  const { listDoneState } = useSelector((state) => state.list);
 
-  const addTask = (input, currentUser) => {
-    if (input) {
-      setInput("");
-      addDoc(collection(db, "users", currentUser.uid, "tasks"), {
-        task: input,
-        timestampCreated: serverTimestamp(),
-        timestampDone: null,
-        isDone: false,
-      });
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setList(tasks);
+  }, [tasks]);
+
+  const onButtonClick = () => {
+    if (content !== "") {
+      addTask();
+    }
+  };
+  const onEnter = async (e) => {
+    if (e.key === "Enter" && e.target.value !== "") {
+      addTask();
     }
   };
 
-  return (
-    <div className="mx-auto">
-      <div>
-        <div className="flex justify-end text-2xl p-2">
-          <button
-            onClick={() => setTaskState(!taskState)}
-            className="bg-green-500 active:bg-green-700 p-2 rounded-lg "
-          >
-            <MdRepeat />
-          </button>
+  const addTask = async (e) => {
+    const uid = uuidv4();
+    setList([...tasks, { id: uid, content: content, done: false }]);
+
+    setDoc(docRef, {
+      tasks: arrayUnion(...tasks, {
+        id: uid,
+        content: content,
+        done: false,
+      }),
+    });
+    newTaskRef.current.value = "";
+    setContent("");
+  };
+
+  const handleChange = (event) => {
+    setContent(event.target.value);
+  };
+
+  const loadingScreen = (
+    <div className="w-full">
+      <div className="animate-pulse flex space-x-4">
+        <div className="flex-1 space-y-6 py-1">
+          <div className="h-4 bg-green-200 rounded w-5/6"></div>
+          <div className="h-4 bg-green-200 rounded w-3/4"></div>
+          <div className="h-4 bg-green-200 rounded w-5/6"></div>
         </div>
       </div>
-      <div className="bg-green-50 p-2 rounded shadow text-green-700 ">
-        {loading ? (
-          <div>loading...</div>
-        ) : (
-          <ul className="divide-y divide-green-700 divide-opacity-10 px-3 pb-2 space-y-2 list-inside text-lg">
-            {tasks
-              .filter((task) => task.isDone === taskState)
-              .sort((a, b) => a.timestampCreated - b.timestampCreated)
-              .map((task) => (
-                <ListItem key={task.id} task={task} currentUser={currentUser} />
-              ))}
-          </ul>
-        )}
+    </div>
+  );
+
+  return (
+    <div className="mx-auto p-2 ">
+      <div className="p-2 bg-green-50 rounded-lg  text-green-700  divide-y divide-green-200 ">
+        <div className="flex justify-end pr-6 pb-2">
+          <button className="" onClick={() => dispatch(changeListState())}>
+            {listDoneState ? <MdClose /> : <MdCheck />}
+          </button>
+        </div>
+        <div>
+          {loading ? (
+            loadingScreen
+          ) : (
+            <DragList tasks={list} currentUser={currentUser} />
+          )}
+        </div>
       </div>
-      <div className="px-6 pt-3 flex flex-row pb-3 space-x-2">
+      <div className="flex">
         <input
-          className="pl-3 container placeholder-green-500 placeholder-opacity-50  border rounded p-1 focus:outline-none focus:ring-2 ring-green-400"
-          placeholder="what's next..."
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && addTask(input, currentUser)}
+          maxLength="100"
+          ref={newTaskRef}
+          type="text"
+          name="task"
+          placeholder="stelle dich deiner neuen Aufgabe 🧙‍♂️"
+          onKeyPress={onEnter}
+          onChange={handleChange}
+          className="bg-white  ring ring-white focus:ring-green-200 p-2  outline-none my-3 w-full rounded-lg"
         />
         <button
-          className=" bg-green-100 text-green-600 font-bold  rounded-lg  hover:bg-green-600 hover:text-green-100 transition ease-out duration-500"
-          type="submit"
-          onClick={() => addTask(input, currentUser)}
+          onClick={onButtonClick}
+          className="bg-green-200 text-white border rounded-full px-4 m-2 active:bg-green-400"
         >
-          <MdAdd />
+          <MdSend />
         </button>
       </div>
     </div>

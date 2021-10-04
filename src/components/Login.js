@@ -7,8 +7,8 @@ export default function Login() {
 
   const passwordRef = useRef();
   const { login } = useAuth();
+  const [error, setError] = useState({ email: false, password: false });
 
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const history = useHistory();
@@ -16,33 +16,41 @@ export default function Login() {
   async function onSignInButtonClicked(e) {
     e.preventDefault();
 
-    try {
-      setError("");
+    login(emailRef.current.value, passwordRef.current.value).then((message) => {
       setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
-      history.push("/");
-    } catch {
-      setError("Failed to log in");
-      console.log(error);
-    }
-
+      switch (message.code) {
+        case "auth/invalid-email":
+          setError({ email: true, password: false });
+          break;
+        case "auth/wrong-password":
+          setError({ email: false, password: true });
+          break;
+        default:
+          return;
+      }
+    });
+    history.push("/");
     setLoading(false);
   }
 
   return (
     <div>
-      <div className=" flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8 mx-auto">
+      <div className=" flex items-center justify-center  py-6 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-4 mx-auto">
           <h2 className="block text-center">Sign in to your account</h2>
           <form>
             <input
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              className={`${"appearance-none rounded-none relative block w-full px-3 py-2 border-2 border-gray-300 placeholder-gray-500 border-opacity-50 text-gray-900 rounded-t-md focus:border-gray-400 focus:outline-none  focus:z-10 sm:text-sm"} ${
+                !error.email ? "bg-white" : " bg-red-50"
+              }`}
               placeholder="Email address"
               ref={emailRef}
               type="email"
-            ></input>{" "}
+            ></input>
             <input
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              className={`${"appearance-none rounded-none relative block w-full px-3 py-2 border-2 border-gray-300 border-opacity-50 placeholder-gray-500 text-gray-900 focus:border-gray-400  rounded-b-md focus:outline-none   focus:z-10 sm:text-sm"} ${
+                !error.password ? "bg-white" : "bg-red-50"
+              }`}
               placeholder="Password"
               ref={passwordRef}
               type="password"
@@ -50,7 +58,7 @@ export default function Login() {
           </form>
           <button
             disabled={loading}
-            className="bg-blue-100 hover:bg-blue-300 p-2 rounded-md"
+            className="bg-green-100 active:bg-green-300 p-2 rounded-md"
             onClick={onSignInButtonClicked}
           >
             Sign In

@@ -11,8 +11,8 @@ export const Home = () => {
     <div>
       <div>
         {currentUser ? (
-          <div className="space-y-2 max-w-3xl mx-auto md:max-w-xl">
-            <div className="pb-2">
+          <div className="space-y-4 sm:max-w-3xl mx-auto">
+            <div>
               <Pomodoro />
             </div>
             <div>

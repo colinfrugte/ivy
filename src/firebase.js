@@ -1,21 +1,3 @@
-// import firebase from "firebase/app";
-// import "firebase/auth";
-
-// const firebaseApp = firebase.initializeApp({
-//   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-//   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-//   databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
-//   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-//   storageBucket: process.env.REACT_APP_FIREBASE_STRORAGE_BUCKET,
-//   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-//   appId: process.env.REACT_APP_FIREBASE_APP_ID,
-// });
-
-// export const auth = firebaseApp.auth();
-
-// const db = firebaseApp.firestore();
-// export default db;
-
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 
@@ -39,5 +21,5 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 const auth = getAuth();
-// connectFirestoreEmulator(db, "localhost", 8080);
+connectFirestoreEmulator(db, "localhost", 8080);
 export { db, auth, app };
